@@ -38,7 +38,7 @@ sourceSets {
 		java.setSrcDirs( listOf( "src", "src-jdk8", "src-apple" ) )
 		resources.setSrcDirs( listOf( "src" ) )
 
-		resources.exclude( "**/*.psd", "**/SwingWorker_COPYING" )
+		resources.exclude( "**/*.java", "**/*.psd", "**/SwingWorker_COPYING" )
 	}
 
 	// Java 9+ sepecific code compiled with Java 9+
