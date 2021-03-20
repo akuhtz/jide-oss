@@ -1,5 +1,6 @@
 import java.lang.Boolean.getBoolean
 
+// release version is used when building with -Drelease=true
 val releaseVersion = "3.7.11.1"
 val developmentVersion = "3.7.12-SNAPSHOT"
 
@@ -38,6 +39,7 @@ sourceSets {
 		java.setSrcDirs( listOf( "src", "src-jdk8", "src-apple" ) )
 		resources.setSrcDirs( listOf( "src" ) )
 
+		java.include( "**/*.java" )
 		resources.exclude( "**/*.java", "**/*.psd", "**/SwingWorker_COPYING" )
 	}
 
