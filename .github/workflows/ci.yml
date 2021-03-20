@@ -49,10 +49,20 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
+      - name: Publish snapshot to oss.sonatype.org
+        run: ./gradlew publish -Dorg.gradle.internal.publish.checksums.insecure=true
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        if: |
+          github.event_name == 'push' &&
+          github.ref == 'refs/heads/gradle' &&
+          github.repository == 'JFormDesigner/jide-oss'
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         if: matrix.java == '1.8'
         with:
           name: build-artifacts
           path: |
-            build
+            build/libs
