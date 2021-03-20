@@ -51,7 +51,7 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         if: |
           github.event_name == 'push' &&
-          github.ref == 'refs/heads/gradle' &&
+          github.ref == 'refs/heads/master' &&
           github.repository == 'JFormDesigner/jide-oss'
 
       - name: Publish to Maven Central
@@ -72,3 +72,6 @@ jobs:
           name: build-artifacts
           path: |
             build/libs
+
+      - name: Print Gradle toolchains
+        run: ./gradlew -q javaToolchains
