@@ -2,7 +2,7 @@ import java.lang.Boolean.getBoolean
 
 // release version is used when building with -Drelease=true
 val releaseVersion = "3.7.11.1"
-val developmentVersion = "3.7.12-SNAPSHOT"
+val developmentVersion = "3.7.11.2-SNAPSHOT"
 
 version = if( getBoolean( "release" ) ) releaseVersion else developmentVersion
 
