@@ -27,6 +27,9 @@ java {
 	toolchain {
 		languageVersion.set( JavaLanguageVersion.of( 8 ) )
 	}
+
+	withSourcesJar()
+	withJavadocJar()
 }
 
 sourceSets {
@@ -85,6 +88,19 @@ tasks.jar {
 	into( "META-INF/versions/9" ) {
 		from( sourceSets["java9"].output )
 	}
+}
+
+tasks.named<Jar>( "sourcesJar" ) {
+	exclude( "apple/**", "com/apple/**", "README.txt" )
+}
+
+tasks.javadoc {
+	options {
+		this as StandardJavadocDocletOptions
+		use( true )
+		addStringOption( "Xdoclint:none", "-Xdoclint:none" )
+	}
+	isFailOnError = false
 }
 
 
