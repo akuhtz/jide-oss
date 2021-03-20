@@ -42,7 +42,9 @@ jobs:
       - name: Cache Gradle cache
         uses: actions/cache@v2
         with:
-          path: ~/.gradle/caches
+          path: |
+            ~/.gradle/caches
+            !~/.gradle/caches/modules-2/modules-2.lock
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}
           restore-keys: ${{ runner.os }}-gradle
 
@@ -57,6 +59,18 @@ jobs:
         if: |
           github.event_name == 'push' &&
           github.ref == 'refs/heads/gradle' &&
+          github.repository == 'JFormDesigner/jide-oss'
+
+      - name: Publish to Maven Central
+        run: ./gradlew publish -Drelease=true
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          SIGNING_KEY:      ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+        if: |
+          github.event_name == 'push' &&
+          startsWith( github.ref, 'refs/heads/gradle' ) &&
           github.repository == 'JFormDesigner/jide-oss'
 
       - name: Upload artifacts
