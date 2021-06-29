@@ -1200,6 +1200,9 @@ public class JideTabbedPane extends JTabbedPane {
     protected void clearVisComp() {
         // this is done so that the super removetab and fireselection do not attempt to manage focus
         // A very dirty hack to access a private variable is jtabpane. Note - this only works on 1.6
+        if(SystemInfo.isJdk6Above()) {
+            return;
+        }
         try {
             java.lang.reflect.Field field = JTabbedPane.class.getDeclaredField("visComp");
             // set accessible true
@@ -1715,6 +1718,9 @@ public class JideTabbedPane extends JTabbedPane {
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             if (value instanceof JideTabbedPane) {
                 JideTabbedPane tabbedPane = (JideTabbedPane) value;
+                if(tabbedPane.getTabCount() == 0 || tabbedPane.getTabCount() <= index) {
+                    return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                }
                 String title = tabbedPane.getTitleAt(index);
                 String tooltip = tabbedPane.getToolTipTextAt(index);
                 Icon icon = tabbedPane.getIconForTab(index);
